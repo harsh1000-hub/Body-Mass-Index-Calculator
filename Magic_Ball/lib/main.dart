@@ -2,10 +2,10 @@ import 'package:flutter/material.dart';
 import 'dart:math';
 void main() {
   runApp(
-    MaterialApp(
-      debugShowCheckedModeBanner: false,
-      home: BallPage(),
-    )
+      MaterialApp(
+        debugShowCheckedModeBanner: false,
+        home: BallPage(),
+      )
   );
 }
 class BallPage extends StatelessWidget {
@@ -17,7 +17,7 @@ class BallPage extends StatelessWidget {
       backgroundColor: Colors.redAccent,
       appBar: AppBar(
         title: Center(
-            child: Text('Ask Me Anything'),),
+          child: Text('Ask Me Anything'),),
         backgroundColor: Colors.black,
       ),
       body: Ball(),
@@ -36,16 +36,16 @@ class _BallState extends State<Ball> {
   int ballNumber=1;
   Widget build(BuildContext context) {
     return Center(
-        child: FlatButton(
-            onPressed: () {
-              setState(() { // give functionality to ballNumber tapping process
-                ballNumber=Random().nextInt(5)+1;
-              });
-            },
-            child: Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: Image.asset('images/ball$ballNumber.png'),
-            )),
+      child: FlatButton(
+          onPressed: () {
+            setState(() { // give functionality to ballNumber tapping process
+              ballNumber=Random().nextInt(5)+1;
+            });
+          },
+          child: Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: Image.asset('images/ball$ballNumber.png'),
+          )),
     );
   }
 }
