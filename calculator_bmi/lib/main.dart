@@ -10,7 +10,7 @@ class BMICalculator extends StatelessWidget {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       theme: ThemeData.dark().copyWith( // theme widget is use here to customize the theme of an app
-          scaffoldBackgroundColor: Colors.white,  // background color
+          scaffoldBackgroundColor: Color(0xFF111328),  // background color
       ),
       home: InputPage(),
     );

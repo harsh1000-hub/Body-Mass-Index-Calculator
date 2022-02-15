@@ -1,5 +1,16 @@
+import 'package:calculator_bmi/resuable_card.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'icon_content.dart';
+const activeCardColor=Color(0xFF1D1E33);  // constant colour give to every Box Layout
+const inactiveCardColor=Color(0xFF111380); // gesture color when on Tap function works
+
+// Enum creation
+enum GenderType{
+  male,
+  female,
+}
 
 class InputPage extends StatefulWidget {
   @override
@@ -7,14 +18,40 @@ class InputPage extends StatefulWidget {
 }
 
 class _InputPageState extends State<InputPage> {
+  Color maleCardColour = inactiveCardColor;
+  Color femaleCardColour = inactiveCardColor;
+  // 1==male and 2==female
+  // update color method/function on tap on box to show different color
+  void updateColour(GenderType gender){
+    // male card pressed
+    if(gender==GenderType.male){
+      //check the male card color
+      if(maleCardColour==inactiveCardColor){
+        maleCardColour=activeCardColor; // switch on male card color
+        femaleCardColour=inactiveCardColor;  // simultaneously switch off female card color
+      }
+      else{
+        maleCardColour=inactiveCardColor; // reset state
+      }
+    }
+
+    // female card pressed
+    if(gender==GenderType.female){
+      // check the female card color
+      if(femaleCardColour==inactiveCardColor){
+        femaleCardColour=activeCardColor; // switch on female card color
+        maleCardColour=inactiveCardColor;// simultaneously switch off male card color
+      }
+      else{
+        femaleCardColour=inactiveCardColor; //reset state
+      }
+    }
+  }
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(10.0),
-        ),
-        backgroundColor: Color(0xFF1D1E33),// hexacode color is use here for appbar
+        backgroundColor: Color(0xFF111328),// hexacode color is use here for appbar
         title: Center(
           child: Text(
             'B.M.I Calculator',
@@ -26,35 +63,66 @@ class _InputPageState extends State<InputPage> {
         children: <Widget>[
           Expanded(child: Row(  // First two box in column widget containing column widget
             children: <Widget>[
-              Expanded(child: ReusableCard(colour: Color(0xFF1D1E33),),),  // here Resusablecard class working
-              Expanded(child:ReusableCard(colour: Color(0xFF1D1E33),),),
-            ],
+
+              //MALE
+              Expanded(child: GestureDetector(  // Gesture Detector change the color of boxes on tap
+                onTap: (){
+                  setState(() {     // calling update color method and set-state us use for functionality
+                    updateColour(GenderType.male); // use enum here
+                  });
+                },
+                child: ReusableCard(  // here reusablecard class working
+                    colour:maleCardColour,
+                  cardChild: IconContent(icon: FontAwesomeIcons.mars, label: 'MALE',),
+                ),
+              ),
+              ),
+
+              //FEMALE
+              Expanded(child: GestureDetector(  // Gesture Detector change the color of boxes on tap
+                onTap: (){
+                  setState(() {     // calling update color method and set-state us use for functionality
+                    updateColour(GenderType.female);  // use enum here
+                  });
+                },
+                child:ReusableCard(
+                  colour: femaleCardColour,
+                cardChild: IconContent(icon: FontAwesomeIcons.venus,label: 'FEMALE',),
+              ),),
+              )],
           )),
-          Expanded(child: ReusableCard(colour: Color(0xFF1D1E33),),), // middle box in column widget containing column widget
+
+
+          Expanded(child: ReusableCard(
+            colour: activeCardColor,
+            cardChild: IconContent(icon: FontAwesomeIcons.circle,label: 'Hey',),
+          ),), // middle box in column widget containing column widget
           Expanded(child: Row(  // Second two box in column widget containing column widget
             children: <Widget>[
-              Expanded(child: ReusableCard(colour: Color(0xFF1D1E33),),),
-              Expanded(child:ReusableCard(colour: Color(0xFF1D1E33),),),
+              Expanded(child: ReusableCard(
+                colour:activeCardColor,
+                cardChild: IconContent(icon: FontAwesomeIcons.addressBook,label: 'harsh',),
+              ),),
+              Expanded(child:ReusableCard(
+                  colour: activeCardColor,
+                cardChild: IconContent(icon: FontAwesomeIcons.mars,label: 'END',),
+              ),),
             ],
           )),
+          Container(  // bottom box for clicking
+            decoration: BoxDecoration(
+              color: Colors.pinkAccent,
+              borderRadius: BorderRadius.circular(50.0),
+            ),
+            margin: EdgeInsets.only(top: 10.0,bottom: 10.0),
+            width: double.infinity,
+            height: 70.0,
+          )
         ],
       )
     );
   }
 }
 
-class ReusableCard extends StatelessWidget {
-  ReusableCard({required this.colour}); // custom color property
-  Color colour;
 
-  @override
-  Widget build(BuildContext context) {
-    return Container(   // one box design card class name as ReusableCard
-      margin: EdgeInsets.all(15.0),
-      decoration: BoxDecoration(
-        color:colour,
-        borderRadius: BorderRadius.circular(10.0),
-      ),
-    );
-  }
-}
+
