@@ -9,10 +9,14 @@ class ReusableCard extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(   // one box design card class name as ReusableCard
       child: cardChild,
-      margin: EdgeInsets.all(15.0),
+      margin: EdgeInsets.all(10.0),
       decoration: BoxDecoration(
-        color:colour,
-        borderRadius: BorderRadius.circular(10.0),
+        // boxShadow: [new BoxShadow(
+        //   color: Colors.orange,
+        //   blurRadius: 5.0,
+        // ),],
+        color:colour,  // this color property is used in input page dart file
+        borderRadius: BorderRadius.circular(20.0),
       ),
     );
   }

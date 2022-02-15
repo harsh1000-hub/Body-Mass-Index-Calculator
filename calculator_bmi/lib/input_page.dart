@@ -2,9 +2,8 @@ import 'package:calculator_bmi/resuable_card.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'contants.dart';
 import 'icon_content.dart';
-const activeCardColor=Color(0xFF1D1E33);  // constant colour give to every Box Layout
-const inactiveCardColor=Color(0xFF111380); // gesture color when on Tap function works
 
 // Enum creation
 enum GenderType{
@@ -18,32 +17,33 @@ class InputPage extends StatefulWidget {
 }
 
 class _InputPageState extends State<InputPage> {
-  Color maleCardColour = inactiveCardColor;
-  Color femaleCardColour = inactiveCardColor;
+  int height=180;
+  Color maleCardColour = kinactiveCardColor;
+  Color femaleCardColour = kinactiveCardColor;
   // 1==male and 2==female
   // update color method/function on tap on box to show different color
   void updateColour(GenderType gender){
     // male card pressed
     if(gender==GenderType.male){
       //check the male card color
-      if(maleCardColour==inactiveCardColor){
-        maleCardColour=activeCardColor; // switch on male card color
-        femaleCardColour=inactiveCardColor;  // simultaneously switch off female card color
+      if(maleCardColour==kinactiveCardColor){
+        maleCardColour=kactiveCardColor; // switch on male card color
+        femaleCardColour=kinactiveCardColor;  // simultaneously switch off female card color
       }
       else{
-        maleCardColour=inactiveCardColor; // reset state
+        maleCardColour=kinactiveCardColor; // reset state
       }
     }
 
     // female card pressed
     if(gender==GenderType.female){
       // check the female card color
-      if(femaleCardColour==inactiveCardColor){
-        femaleCardColour=activeCardColor; // switch on female card color
-        maleCardColour=inactiveCardColor;// simultaneously switch off male card color
+      if(femaleCardColour==kinactiveCardColor){
+        femaleCardColour=kactiveCardColor; // switch on female card color
+        maleCardColour=kinactiveCardColor;// simultaneously switch off male card color
       }
-      else{
-        femaleCardColour=inactiveCardColor; //reset state
+      else {
+        femaleCardColour=kinactiveCardColor; //reset state
       }
     }
   }
@@ -60,6 +60,8 @@ class _InputPageState extends State<InputPage> {
         ),
       ),
       body:Column(    // Column widget to contain multiple children layout
+
+        crossAxisAlignment: CrossAxisAlignment.stretch,  // this is used to stretch th slider widget and other widget of a container
         children: <Widget>[
           Expanded(child: Row(  // First two box in column widget containing column widget
             children: <Widget>[
@@ -94,29 +96,72 @@ class _InputPageState extends State<InputPage> {
 
 
           Expanded(child: ReusableCard(
-            colour: activeCardColor,
-            cardChild: IconContent(icon: FontAwesomeIcons.circle,label: 'Hey',),
+            colour: kactiveCardColor,
+            cardChild:Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children:  <Widget>[Text(
+                'HEIGHT',
+                style: klabelTextStyle,
+              ),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.center, //is always along the length of a row.
+                  crossAxisAlignment: CrossAxisAlignment.baseline,  //is always along the width of a row.
+                  textBaseline: TextBaseline.alphabetic, // this is used to align (cm) at correct position
+                  children: <Widget>[
+                    Text(
+                      height.toString(), // typecast int to String Text
+                      style: knumberTextStyle, // using constants.dart file
+                    ),
+                    Text('cm'),
+                  ],
+                ),
+                
+                // SLIDER
+                SliderTheme(
+                  data: SliderThemeData(
+                    inactiveTrackColor: Colors.grey, // inactive track color
+                    activeTrackColor: Colors.white, // active state color
+                    thumbColor: Colors.pinkAccent,  // thumb color
+                    overlayColor: Colors.black54,  // thumb background color
+                    thumbShape: RoundSliderThumbShape(enabledThumbRadius: 15.0),
+                    overlayShape: RoundSliderOverlayShape(overlayRadius: 30.0),
+                  ),
+                  child: Slider(
+                    value: height.toDouble(),
+                    min: 120,
+                    max: 220,
+                    onChanged: (double newValue) {
+                      setState(() {
+                        height=newValue.round();  // move th value in the slider
+                      });
+                  },
+                  ),
+                )
+              ],
+
+            ),
           ),), // middle box in column widget containing column widget
           Expanded(child: Row(  // Second two box in column widget containing column widget
             children: <Widget>[
               Expanded(child: ReusableCard(
-                colour:activeCardColor,
+                colour:kactiveCardColor,
                 cardChild: IconContent(icon: FontAwesomeIcons.addressBook,label: 'harsh',),
               ),),
               Expanded(child:ReusableCard(
-                  colour: activeCardColor,
+                  colour: kactiveCardColor,
                 cardChild: IconContent(icon: FontAwesomeIcons.mars,label: 'END',),
               ),),
             ],
           )),
           Container(  // bottom box for clicking
             decoration: BoxDecoration(
-              color: Colors.pinkAccent,
-              borderRadius: BorderRadius.circular(50.0),
+              shape: BoxShape.circle,
+              image: DecorationImage(
+                image: NetworkImage('https://cdn.pixabay.com/photo/2021/09/06/22/42/touch-6602643__480.png'),
+              ),
+              //borderRadius: BorderRadius.circular(50),
             ),
-            margin: EdgeInsets.only(top: 10.0,bottom: 10.0),
-            width: double.infinity,
-            height: 70.0,
+            height: 80.0,
           )
         ],
       )
