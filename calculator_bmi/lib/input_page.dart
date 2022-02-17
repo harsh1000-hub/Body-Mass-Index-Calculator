@@ -17,9 +17,11 @@ class InputPage extends StatefulWidget {
 }
 
 class _InputPageState extends State<InputPage> {
-  int height=180;
-  Color maleCardColour = kinactiveCardColor;
-  Color femaleCardColour = kinactiveCardColor;
+  int age=18;
+  int height=180; // track the height of a person
+  int weight= 60; // track the weight of a person
+  Color maleCardColour = kinactiveCardColor;  // reset state male color
+  Color femaleCardColour = kinactiveCardColor; // reset state female color
   // 1==male and 2==female
   // update color method/function on tap on box to show different color
   void updateColour(GenderType gender){
@@ -63,13 +65,13 @@ class _InputPageState extends State<InputPage> {
 
         crossAxisAlignment: CrossAxisAlignment.stretch,  // this is used to stretch th slider widget and other widget of a container
         children: <Widget>[
-          Expanded(child: Row(  // First two box in column widget containing column widget
+          Expanded(child: Row(  // First two box in column widget containing Row widget
             children: <Widget>[
 
               //MALE
               Expanded(child: GestureDetector(  // Gesture Detector change the color of boxes on tap
                 onTap: (){
-                  setState(() {     // calling update color method and set-state us use for functionality
+                  setState(() {     // calling update color method and set-state  use for functionality
                     updateColour(GenderType.male); // use enum here
                   });
                 },
@@ -145,14 +147,92 @@ class _InputPageState extends State<InputPage> {
             children: <Widget>[
               Expanded(child: ReusableCard(
                 colour:kactiveCardColor,
-                cardChild: IconContent(icon: FontAwesomeIcons.addressBook,label: 'harsh',),
+                cardChild: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Text(
+                      'WEIGHT',
+                      style: klabelTextStyle,
+                    ),
+                    Text(
+                      weight.toString(), // cast weight into string datatype
+                      style: knumberTextStyle,  // using constants.dart file here
+                    ),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        FloatingActionButton(
+                           onPressed: () {
+                             setState(() {   // give functionality
+                               weight--;  // weight decrease in tap
+                             });
+                           },
+                          child: Icon(Icons.remove,color: Colors.white,size: 35.0,),
+                          backgroundColor: Colors.black54,
+                        ),
+                        SizedBox(
+                          width: 10.0,
+                        ),
+                        FloatingActionButton(
+                          onPressed: (){
+                            setState(() {  // give functionality
+                              weight++; // weight increase on tap
+                            });
+                          },
+                          child: Icon(Icons.add,color: Colors.white,size: 35.0,),
+                          backgroundColor: Colors.black54,
+                        ),
+                      ],
+                    ),
+                  ]
+                )
               ),),
+
               Expanded(child:ReusableCard(
                   colour: kactiveCardColor,
-                cardChild: IconContent(icon: FontAwesomeIcons.mars,label: 'END',),
+                  cardChild: Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Text(
+                          'AGE',
+                          style: klabelTextStyle,
+                        ),
+                        Text(
+                          age.toString(), // cast weight into string datatype
+                          style: knumberTextStyle,  // using constants.dart file here
+                        ),
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            FloatingActionButton(
+                              onPressed: () {
+                                setState(() {   // give functionality
+                                  age--;  // weight decrease in tap
+                                });
+                              },
+                              child: Icon(Icons.remove,color: Colors.white,size: 35.0,),
+                              backgroundColor: Colors.black54,
+                            ),
+                            SizedBox(
+                              width: 10.0,
+                            ),
+                            FloatingActionButton(
+                              onPressed: (){
+                                setState(() {  // give functionality
+                                  age++; // weight increase on tap
+                                });
+                              },
+                              child: Icon(Icons.add,color: Colors.white,size: 35.0,),
+                              backgroundColor: Colors.black54,
+                            ),
+                          ],
+                        ),
+                      ]
+                  )
               ),),
             ],
           )),
+
           Container(  // bottom box for clicking
             decoration: BoxDecoration(
               shape: BoxShape.circle,
@@ -168,6 +248,4 @@ class _InputPageState extends State<InputPage> {
     );
   }
 }
-
-
 
