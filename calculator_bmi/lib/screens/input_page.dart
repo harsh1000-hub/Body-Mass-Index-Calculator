@@ -1,10 +1,11 @@
-import 'package:calculator_bmi/resuable_card.dart';
+import 'package:calculator_bmi/components/resuable_card.dart';
+import 'package:calculator_bmi/screens/result_page.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-import 'contants.dart';
-import 'icon_content.dart';
-
+import '../contants.dart';
+import '../components/icon_content.dart';
+import 'package:calculator_bmi/calculatorBrain.dart';
 // Enum creation
 enum GenderType{
   male,
@@ -233,18 +234,40 @@ class _InputPageState extends State<InputPage> {
             ],
           )),
 
-          Container(  // bottom box for clicking
-            decoration: BoxDecoration(
-              shape: BoxShape.circle,
-              image: DecorationImage(
-                image: NetworkImage('https://cdn.pixabay.com/photo/2021/09/06/22/42/touch-6602643__480.png'),
+          // First screen where all the calculator functionality is there
+          GestureDetector(
+            onTap: (){
+              // create object calc from CalculatorBrain class which do main functionality of the app
+              CalculatorBrain calc=CalculatorBrain(height: height, weight: weight);
+              Navigator.push(context, MaterialPageRoute(builder: (context){
+                return ResultsPage(
+                  //object creation from calculateBrain class
+                  bmiResult: calc.calculateBMI(),
+                  resultText: calc.getResult(),
+                  interpretation: calc.getInterpretation(),
+                );
+              }));
+            },
+            child: Container(  // bottom box for clicking
+              child: Card(
+                color: Colors.pinkAccent,
+                child: Center(
+                  child: Text(
+                    'Calculate',
+                    style:klargestButtonTextStyle,
+                  ),
+                ),
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(10.0),
+                ),
               ),
-              //borderRadius: BorderRadius.circular(50),
+              margin: EdgeInsets.only(top: 10.0),
+              padding: EdgeInsets.only(bottom: 10.0),
+              height:70.0,
             ),
-            height: 80.0,
-          )
+          ),
         ],
-      )
+      ),
     );
   }
 }

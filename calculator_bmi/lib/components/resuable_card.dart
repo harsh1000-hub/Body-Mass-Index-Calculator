@@ -9,6 +9,7 @@ class ReusableCard extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(   // one box design card class name as ReusableCard
       child: cardChild,
+     // width: double.infinity,
       margin: EdgeInsets.all(10.0),
       decoration: BoxDecoration(
         // boxShadow: [new BoxShadow(
